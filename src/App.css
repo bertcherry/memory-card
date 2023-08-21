@@ -63,6 +63,11 @@ button:focus-visible {
   padding: .75rem;
 }
 
+.info {
+  max-width: 500px;
+  align-self: center;
+}
+
 .card-section {
   flex: 1 1 0;
   display: grid;

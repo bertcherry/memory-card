@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import HeroCards from './components/HeroCards';
+import Info from './components/Info';
 
 function App() {
     const [heroData, setHeroData] = useState([]);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [playState, setPlayState] = useState('start');
     const [playedIds, setPlayedIds] = useState([]);
     const [currentScore, setCurrentScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
@@ -42,7 +43,14 @@ function App() {
     }
 
     function handleStart() {
-        setIsPlaying(true);
+        setPlayState('playing');
+    }
+
+    function handleReset() {
+        setPlayedIds([]);
+        setCurrentScore(0);
+        setHighScore(0);
+        setPlayState('start');
     }
 
     function handlePlay(heroId) {
@@ -53,11 +61,28 @@ function App() {
                 setHighScore(tempScore);
             }
             setPlayedIds([...playedIds, heroId]);
-            randomizeData(heroData);
+            if (tempScore > 8) {
+                setPlayState('won');
+            } else {
+                randomizeData(heroData);
+            }
         } else {
             setPlayedIds([]);
-            setIsPlaying(false);
+            setPlayState('lost');
             setCurrentScore(0);
+        }
+    }
+
+    function Body() {
+        if (playState === 'playing') {
+            return (
+                <HeroCards heroData={randomizeData(heroData)} handlePlay={handlePlay}/>
+        )} else {
+            return (
+                <div className='info'>
+                    <Info playState={playState} handleStart={handleStart} handleReset={handleReset} />
+                </div>
+            )
         }
     }
 
@@ -70,14 +95,7 @@ function App() {
                     <div>Current Score: {currentScore}</div>
                 </div>
             </div>
-            {isPlaying === false ? (
-                <div className='info'>
-                    <p>Click each picture only once! The heroes are always on the move and will reshuffle between each click. Try to get all nine. Good luck!</p>
-                    <button onClick={handleStart}>Play</button>
-                </div>
-            ) : (
-                <HeroCards heroData={randomizeData(heroData)} handlePlay={handlePlay}/>
-            )}
+            <Body />
         </>
     );
 }

@@ -1,9 +1,9 @@
 import Card from "./Card"
 
-export default function HeroCards({heroData}) {
+export default function HeroCards({heroData, handlePlay}) {
     const cards = heroData.map(hero => {
         return (
-            <Card key={hero.id} heroName={hero.name} heroImg={hero.images.md}/>
+            <Card key={hero.id} heroId={hero.id} heroName={hero.name} heroImg={hero.images.md} handlePlay={handlePlay}/>
         )
     });
 

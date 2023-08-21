@@ -5,6 +5,9 @@ import HeroCards from './components/HeroCards';
 function App() {
     const [heroData, setHeroData] = useState([]);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [playedIds, setPlayedIds] = useState([]);
+    const [currentScore, setCurrentScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
 
     useEffect(() => {
         const heroIds = [107, 275, 309, 480, 522, 567, 579, 638, 720];
@@ -42,11 +45,30 @@ function App() {
         setIsPlaying(true);
     }
 
+    function handlePlay(heroId) {
+        if (!playedIds.includes(heroId)) {
+            let tempScore = playedIds.length + 1;
+            setCurrentScore(tempScore);
+            if (tempScore > highScore) {
+                setHighScore(tempScore);
+            }
+            setPlayedIds([...playedIds, heroId]);
+            randomizeData(heroData);
+        } else {
+            setPlayedIds([]);
+            setIsPlaying(false);
+            setCurrentScore(0);
+        }
+    }
+
     return (
         <>
             <div className='heading'>
                 <h1>Super Memory Game</h1>
-                <div /* Counter will go here */ />
+                <div>
+                    <div>High Score: {highScore}</div>
+                    <div>Current Score: {currentScore}</div>
+                </div>
             </div>
             {isPlaying === false ? (
                 <div className='info'>
@@ -54,7 +76,7 @@ function App() {
                     <button onClick={handleStart}>Play</button>
                 </div>
             ) : (
-                <HeroCards heroData={randomizeData(heroData)}/>
+                <HeroCards heroData={randomizeData(heroData)} handlePlay={handlePlay}/>
             )}
         </>
     );

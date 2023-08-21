@@ -65,7 +65,7 @@ function App() {
         <>
             <div className='heading'>
                 <h1>Super Memory Game</h1>
-                <div>
+                <div className='scoreboard'>
                     <div>High Score: {highScore}</div>
                     <div>Current Score: {currentScore}</div>
                 </div>

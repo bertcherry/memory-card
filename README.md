@@ -1,3 +1,8 @@
+# memory-card
+Student work from The Odin Project with a focus on using React components. 
+
+Deployed on Vercel: https://memory-card-lemon.vercel.app/
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
